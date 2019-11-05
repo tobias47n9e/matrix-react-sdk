@@ -23,7 +23,6 @@ import React from 'react';
 import createReactClass from 'create-react-class';
 import ReactDOM from "react-dom";
 import PropTypes from 'prop-types';
-import Promise from 'bluebird';
 
 const Matrix = require("matrix-js-sdk");
 const EventTimeline = Matrix.EventTimeline;
@@ -462,7 +461,7 @@ const TimelinePanel = createReactClass({
         // timeline window.
         //
         // see https://github.com/vector-im/vector-web/issues/1035
-        this._timelineWindow.paginate(EventTimeline.FORWARDS, 1, false).done(() => {
+        this._timelineWindow.paginate(EventTimeline.FORWARDS, 1, false).then(() => {
             if (this.unmounted) { return; }
 
             const { events, liveEvents } = this._getEvents();
@@ -1064,7 +1063,7 @@ const TimelinePanel = createReactClass({
             });
         };
 
-        let prom = this._timelineWindow.load(eventId, INITIAL_SIZE);
+        const prom = this._timelineWindow.load(eventId, INITIAL_SIZE);
 
         // if we already have the event in question, TimelineWindow.load
         // returns a resolved promise.
@@ -1085,10 +1084,8 @@ const TimelinePanel = createReactClass({
                 timelineLoading: true,
             });
 
-            prom = prom.then(onLoaded, onError);
+            prom.then(onLoaded, onError);
         }
-
-        prom.done();
     },
 
     // handle the completion of a timeline load or localEchoUpdate, by

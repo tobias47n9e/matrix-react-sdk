@@ -31,14 +31,14 @@ module.exports = class RestRoom {
             "msgtype": "m.text",
             "body": message,
         });
-        this.log.done();
+        this.log;
         return txId;
     }
 
     async leave() {
         this.log.step(`leaves ${this._roomId}`);
         await this.session._post(`/rooms/${this._roomId}/leave`);
-        this.log.done();
+        this.log;
     }
 
     roomId() {

@@ -42,7 +42,7 @@ module.exports = class RestMultiSession {
             await s.setDisplayName(fn(s));
             s.log.unmute();
         }));
-        this.log.done();
+        this.log;
     }
 
     async join(roomIdOrAlias) {
@@ -53,7 +53,7 @@ module.exports = class RestMultiSession {
             s.log.unmute();
             return room;
         }));
-        this.log.done();
+        this.log;
         return new RestMultiRoom(rooms, roomIdOrAlias, this.log);
     }
 
@@ -77,7 +77,7 @@ class RestMultiRoom {
             await r.talk(message);
             r.log.unmute();
         }));
-        this.log.done();
+        this.log;
     }
 
     async leave() {
@@ -87,6 +87,6 @@ class RestMultiRoom {
             await r.leave();
             r.log.unmute();
         }));
-        this.log.done();
+        this.log;
     }
 }

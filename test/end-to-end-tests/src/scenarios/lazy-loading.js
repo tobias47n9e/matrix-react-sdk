@@ -62,7 +62,7 @@ async function setupRoomWithBobAliceAndCharlies(alice, bob, charlies) {
     for (let i = 20; i >= 1; --i) {
         await sendMessage(bob, `I will only say this ${i} time(s)!`);
     }
-    bob.log.unmute().done();
+    bob.log.unmute();
     await join(alice, alias);
 }
 
@@ -91,7 +91,7 @@ async function checkMemberList(alice, charlies) {
             `${charly.displayName()} should be in the member list, ` +
             `only have ${displayNames}`);
     });
-    alice.log.done();
+    alice.log;
 }
 
 async function checkMemberListLacksCharlies(session, charlies) {
@@ -102,7 +102,7 @@ async function checkMemberListLacksCharlies(session, charlies) {
             `${charly.displayName()} should not be in the member list, ` +
             `only have ${displayNames}`);
     });
-    session.log.done();
+    session.log;
 }
 
 async function joinCharliesWhileAliceIsOffline(alice, charly6to10) {
@@ -114,7 +114,7 @@ async function joinCharliesWhileAliceIsOffline(alice, charly6to10) {
     for (let i = 20; i >= 1; --i) {
         await member6.talk("where is charly?");
     }
-    member6.log.unmute().done();
+    member6.log.unmute();
     const catchupPromise = alice.waitForNextSuccessfulSync();
     await alice.setOffline(false);
     await catchupPromise;

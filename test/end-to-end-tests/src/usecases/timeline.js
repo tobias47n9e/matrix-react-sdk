@@ -39,7 +39,7 @@ module.exports.scrollToTimelineTop = async function(session) {
             } while (!timedOut);
         });
     });
-    session.log.done();
+    session.log;
 };
 
 module.exports.receiveMessage = async function(session, expectedMessage) {
@@ -65,7 +65,7 @@ module.exports.receiveMessage = async function(session, expectedMessage) {
             lastMessage.sender === expectedMessage.sender;
     });
     assertMessage(lastMessage, expectedMessage);
-    session.log.done();
+    session.log;
 };
 
 
@@ -100,7 +100,7 @@ module.exports.checkTimelineContains = async function(session, expectedMessages,
         }
     });
 
-    session.log.done();
+    session.log;
 };
 
 function assertMessage(foundMessage, expectedMessage) {

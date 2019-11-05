@@ -25,5 +25,5 @@ module.exports = async function join(session, roomName) {
     const joinFirstLink = await session.query('.mx_RoomDirectory_table .mx_RoomDirectory_join .mx_AccessibleButton');
     await joinFirstLink.click();
     await session.query('.mx_MessageComposer');
-    session.log.done();
+    session.log;
 };

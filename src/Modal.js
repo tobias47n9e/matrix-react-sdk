@@ -23,7 +23,7 @@ import Analytics from './Analytics';
 import sdk from './index';
 import dis from './dispatcher';
 import { _t } from './languageHandler';
-import Promise from "bluebird";
+import Deferred from "es6-deferred";
 
 const DIALOG_CONTAINER_ID = "mx_Dialog_Container";
 const STATIC_DIALOG_CONTAINER_ID = "mx_Dialog_StaticContainer";
@@ -202,7 +202,7 @@ class ModalManager {
     }
 
     _getCloseFn(modal, props) {
-        const deferred = Promise.defer();
+        const deferred = new Deferred();
         return [(...args) => {
             deferred.resolve(args);
             if (props && props.onFinished) props.onFinished.apply(null, args);

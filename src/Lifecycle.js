@@ -16,7 +16,6 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import Promise from 'bluebird';
 import Matrix from 'matrix-js-sdk';
 
 import MatrixClientPeg from './MatrixClientPeg';
@@ -202,12 +201,10 @@ export function handleInvalidStoreError(e) {
                 // is a strong indicator of this (/develop & /app)
                 const LazyLoadingDisabledDialog =
                     sdk.getComponent("views.dialogs.LazyLoadingDisabledDialog");
-                return new Promise((resolve) => {
-                    Modal.createDialog(LazyLoadingDisabledDialog, {
-                        onFinished: resolve,
-                        host: window.location.host,
-                    });
+                const modal = Modal.createDialog(LazyLoadingDisabledDialog, {
+                    host: window.location.host,
                 });
+                return modal.finished;
             }
         }).then(() => {
             return MatrixClientPeg.get().store.deleteAllData();
@@ -312,18 +309,13 @@ async function _restoreFromLocalStorage(opts) {
 function _handleLoadSessionFailure(e) {
     console.error("Unable to load session", e);
 
-    const def = Promise.defer();
     const SessionRestoreErrorDialog =
           sdk.getComponent('views.dialogs.SessionRestoreErrorDialog');
-
-    Modal.createTrackedDialog('Session Restore Error', '', SessionRestoreErrorDialog, {
+    const modal = Modal.createTrackedDialog('Session Restore Error', '', SessionRestoreErrorDialog, {
         error: e.message,
-        onFinished: (success) => {
-            def.resolve(success);
-        },
     });
 
-    return def.promise.then((success) => {
+    return modal.finished.then(([success]) => {
         if (success) {
             // user clicked continue.
             _clearStorage();
@@ -528,7 +520,7 @@ export function logout() {
             console.log("Failed to call logout API: token will not be invalidated");
             onLoggedOut();
         },
-    ).done();
+    );
 }
 
 export function softLogout() {
@@ -612,7 +604,7 @@ export function onLoggedOut() {
     // that can occur when components try to use a null client.
     dis.dispatch({action: 'on_logged_out'}, true);
     stopMatrixClient();
-    _clearStorage().done();
+    _clearStorage();
 }
 
 /**

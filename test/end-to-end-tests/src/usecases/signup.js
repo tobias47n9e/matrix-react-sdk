@@ -86,5 +86,5 @@ module.exports = async function signup(session, username, password, homeserver) 
         return url === session.url('/#/home');
     });
     assert(foundHomeUrl);
-    session.log.done();
+    session.log;
 };

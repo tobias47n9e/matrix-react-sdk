@@ -16,7 +16,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import Promise from 'bluebird';
+import Bluebird from "bluebird";
 
 // This module contains all the code needed to log the console, persist it to
 // disk and submit bug reports. Rationale is as follows:
@@ -223,7 +223,7 @@ class IndexedDBLogStore {
         }
         // there is no flush promise or there was but it has finished, so do
         // a brand new one, destroying the chain which may have been built up.
-        this.flushPromise = new Promise((resolve, reject) => {
+        this.flushPromise = new Bluebird((resolve, reject) => {
             if (!this.db) {
                 // not connected yet or user rejected access for us to r/w to
                 // the db.

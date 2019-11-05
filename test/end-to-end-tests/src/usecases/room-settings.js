@@ -22,10 +22,10 @@ async function setSettingsToggle(session, toggle, enabled) {
     const checked = className.includes("mx_ToggleSwitch_on");
     if (checked !== enabled) {
         await toggle.click();
-        session.log.done();
+        session.log;
         return true;
     } else {
-        session.log.done("already set");
+        session.log.then("already set");
     }
 }
 
@@ -55,7 +55,7 @@ module.exports = async function changeRoomSettings(session, settings) {
         await session.replaceInputText(aliasField, settings.alias);
         const addButton = await session.query(".mx_RoomSettingsDialog .mx_AliasSettings .mx_AccessibleButton");
         await addButton.click();
-        session.log.done();
+        session.log;
     }
 
     securityTabButton.click();
@@ -89,7 +89,7 @@ module.exports = async function changeRoomSettings(session, settings) {
         } else {
             throw new Error(`unrecognized room visibility setting: ${settings.visibility}`);
         }
-        session.log.done();
+        session.log;
     }
 
     const closeButton = await session.query(".mx_RoomSettingsDialog .mx_Dialog_cancelButton");

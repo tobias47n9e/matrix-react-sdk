@@ -24,5 +24,5 @@ module.exports = async function invite(session, userId) {
     await inviteTextArea.press("Enter");
     const confirmButton = await session.query(".mx_Dialog_primary");
     await confirmButton.click();
-    session.log.done();
+    session.log;
 };

@@ -37,7 +37,7 @@ module.exports.enableLazyLoading = async function(session) {
     await session.waitForReload();
     const closeButton = await session.query(".mx_RoomHeader_cancelButton");
     await closeButton.click();
-    session.log.done();
+    session.log;
 };
 
 module.exports.getE2EDeviceFromSettings = async function(session) {
@@ -49,6 +49,6 @@ module.exports.getE2EDeviceFromSettings = async function(session) {
     const key = await (await deviceAndKey[1].getProperty("innerText")).jsonValue();
     const closeButton = await session.query(".mx_UserSettingsDialog .mx_Dialog_cancelButton");
     await closeButton.click();
-    session.log.done();
+    session.log;
     return {id, key};
 };

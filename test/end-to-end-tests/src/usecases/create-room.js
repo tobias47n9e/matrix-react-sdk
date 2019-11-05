@@ -40,7 +40,7 @@ async function createRoom(session, roomName) {
     await createButton.click();
 
     await session.query('.mx_MessageComposer');
-    session.log.done();
+    session.log;
 }
 
 module.exports = {openRoomDirectory, createRoom};

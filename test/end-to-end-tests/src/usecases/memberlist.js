@@ -58,7 +58,7 @@ module.exports.verifyDeviceForUser = async function(session, name, expectedDevic
     await confirmButton.click();
     const closeMemberInfo = await session.query(".mx_MemberInfo_cancel");
     await closeMemberInfo.click();
-    session.log.done();
+    session.log;
 };
 
 async function getMembersInMemberlist(session) {

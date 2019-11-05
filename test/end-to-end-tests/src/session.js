@@ -200,7 +200,7 @@ module.exports = class RiotSession {
         const description = enabled ? "offline" : "back online";
         this.log.step(`goes ${description}`);
         await this.page.setOfflineMode(enabled);
-        this.log.done();
+        this.log;
     }
 
     close() {

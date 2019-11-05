@@ -49,7 +49,7 @@ xdescribe('MessageComposerInput', () => {
         // warnings
         // (please can we make the components not setState() after
         // they are unmounted?)
-        Promise.delay(10).done(() => {
+        Promise.delay(10).then(() => {
             if (parentDiv) {
                 ReactDOM.unmountComponentAtNode(parentDiv);
                 parentDiv.remove();

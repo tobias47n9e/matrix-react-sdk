@@ -45,13 +45,13 @@ module.exports = class RestSession {
         await this._put(`/profile/${this._credentials.userId}/displayname`, {
             displayname: displayName,
         });
-        this.log.done();
+        this.log;
     }
 
     async join(roomIdOrAlias) {
         this.log.step(`joins ${roomIdOrAlias}`);
         const roomId = (await this._post(`/join/${encodeURIComponent(roomIdOrAlias)}`)).room_id;
-        this.log.done();
+        this.log;
         const room = new RestRoom(this, roomId, this.log);
         this._rooms[roomId] = room;
         this._rooms[roomIdOrAlias] = room;
@@ -87,7 +87,7 @@ module.exports = class RestSession {
         }
 
         const roomId = (await this._post(`/createRoom`, body)).room_id;
-        this.log.done();
+        this.log;
         return new RestRoom(this, roomId, this.log);
     }
 

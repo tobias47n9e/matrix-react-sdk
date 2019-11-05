@@ -38,7 +38,7 @@ module.exports = async function e2eEncryptionScenarios(alice, bob) {
     // wait in parallel, so they don't deadlock on each other
     const [bobSas, aliceSas] = await Promise.all([bobSasPromise, aliceSasPromise]);
     assert.deepEqual(bobSas, aliceSas);
-    bob.log.done(`done (match for ${bobSas.join(", ")})`);
+    bob.log.then(`done (match for ${bobSas.join(", ")})`);
     const aliceMessage = "Guess what I just heard?!";
     await sendMessage(alice, aliceMessage);
     await receiveMessage(bob, {sender: "alice", body: aliceMessage, encrypted: true});

@@ -17,7 +17,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import Promise from 'bluebird';
+import Deferred from 'es6-deferred';
 
 import React from 'react';
 import createReactClass from 'create-react-class';
@@ -60,10 +60,6 @@ import AutoDiscoveryUtils from "../../utils/AutoDiscoveryUtils";
 import DMRoomMap from '../../utils/DMRoomMap';
 import { countRoomsWithNotif } from '../../RoomNotifs';
 import { setTheme } from "../../theme";
-
-// Disable warnings for now: we use deprecated bluebird functions
-// and need to migrate, but they spam the console with warnings.
-Promise.config({warnings: false});
 
 /** constants for MatrixChat.state.view */
 const VIEWS = {
@@ -236,7 +232,7 @@ export default createReactClass({
 
         // Used by _viewRoom before getting state from sync
         this.firstSyncComplete = false;
-        this.firstSyncPromise = Promise.defer();
+        this.firstSyncPromise = new Deferred();
 
         if (this.props.config.sync_timeline_limit) {
             MatrixClientPeg.opts.initialSyncLimit = this.props.config.sync_timeline_limit;
@@ -540,7 +536,7 @@ export default createReactClass({
                             const Loader = sdk.getComponent("elements.Spinner");
                             const modal = Modal.createDialog(Loader, null, 'mx_Dialog_spinner');
 
-                            MatrixClientPeg.get().leave(payload.room_id).done(() => {
+                            MatrixClientPeg.get().leave(payload.room_id).then(() => {
                                 modal.close();
                                 if (this.state.currentRoomId === payload.room_id) {
                                     dis.dispatch({action: 'view_next_room'});
@@ -861,7 +857,7 @@ export default createReactClass({
             waitFor = this.firstSyncPromise.promise;
         }
 
-        waitFor.done(() => {
+        waitFor.then(() => {
             let presentedId = roomInfo.room_alias || roomInfo.room_id;
             const room = MatrixClientPeg.get().getRoom(roomInfo.room_id);
             if (room) {
@@ -973,7 +969,7 @@ export default createReactClass({
 
         const [shouldCreate, createOpts] = await modal.finished;
         if (shouldCreate) {
-            createRoom({createOpts}).done();
+            createRoom({createOpts});
         }
     },
 
@@ -1261,7 +1257,7 @@ export default createReactClass({
         // since we're about to start the client and therefore about
         // to do the first sync
         this.firstSyncComplete = false;
-        this.firstSyncPromise = Promise.defer();
+        this.firstSyncPromise = new Deferred();
         const cli = MatrixClientPeg.get();
         const IncomingSasDialog = sdk.getComponent('views.dialogs.IncomingSasDialog');
 
@@ -1749,7 +1745,7 @@ export default createReactClass({
             return;
         }
 
-        cli.sendEvent(roomId, event.getType(), event.getContent()).done(() => {
+        cli.sendEvent(roomId, event.getType(), event.getContent()).then(() => {
             dis.dispatch({action: 'message_sent'});
         }, (err) => {
             dis.dispatch({action: 'message_send_failed'});

@@ -30,5 +30,5 @@ module.exports = async function sendMessage(session, message) {
     await composer.press("Enter");
     // wait for the message to appear sent
     await session.query(".mx_EventTile_last:not(.mx_EventTile_sending)");
-    session.log.done();
+    session.log;
 };

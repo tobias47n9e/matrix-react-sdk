@@ -31,5 +31,5 @@ module.exports = async function acceptInvite(session, name) {
     const acceptInvitationLink = await session.query(".mx_RoomPreviewBar_Invite .mx_AccessibleButton_kind_primary");
     await acceptInvitationLink.click();
 
-    session.log.done();
+    session.log;
 };
